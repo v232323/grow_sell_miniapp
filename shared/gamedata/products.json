@@ -1,0 +1,24 @@
+{
+  "_comment": "Kitchen dishes. Fields: id, name (ru), base_price, unlock_level, icon. Mirrors economy_manager.gd _create_default_definitions().",
+  "products": [
+    { "id": "salad",            "name": "Салат",                "base_price": 28.0,  "unlock_level": 1,  "icon": "🥗" },
+    { "id": "onion_soup",       "name": "Луковый суп",          "base_price": 35.0,  "unlock_level": 1,  "icon": "🍲" },
+    { "id": "soup",             "name": "Суп",                  "base_price": 48.0,  "unlock_level": 2,  "icon": "🥣" },
+    { "id": "stew",             "name": "Рагу",                 "base_price": 65.0,  "unlock_level": 2,  "icon": "🍲" },
+    { "id": "pie",              "name": "Пирог",                "base_price": 100.0, "unlock_level": 3,  "icon": "🥧" },
+    { "id": "gazpacho",         "name": "Гаспачо",              "base_price": 85.0,  "unlock_level": 3,  "icon": "🍅" },
+    { "id": "corn_soup",        "name": "Кукурузный суп",       "base_price": 80.0,  "unlock_level": 4,  "icon": "🌽" },
+    { "id": "stuffed_pepper",   "name": "Фаршированный перец",  "base_price": 115.0, "unlock_level": 4,  "icon": "🫑" },
+    { "id": "mushroom_soup",    "name": "Грибной крем-суп",     "base_price": 130.0, "unlock_level": 5,  "icon": "🍄" },
+    { "id": "paprikash",        "name": "Паприкаш",             "base_price": 140.0, "unlock_level": 5,  "icon": "🌶️" },
+    { "id": "borscht",          "name": "Борщ",                 "base_price": 160.0, "unlock_level": 6,  "icon": "🥘" },
+    { "id": "ratatouille",      "name": "Рататуй",              "base_price": 170.0, "unlock_level": 6,  "icon": "🍆" },
+    { "id": "pumpkin_soup",     "name": "Тыквенный суп",        "base_price": 195.0, "unlock_level": 7,  "icon": "🎃" },
+    { "id": "florentine",       "name": "Флорентийский шпинат", "base_price": 170.0, "unlock_level": 7,  "icon": "🌿" },
+    { "id": "apple_pie",        "name": "Яблочный пирог",       "base_price": 230.0, "unlock_level": 8,  "icon": "🥧" },
+    { "id": "bread",            "name": "Хлеб",                 "base_price": 185.0, "unlock_level": 8,  "icon": "🍞" },
+    { "id": "zucchini_souffle", "name": "Суфле из кабачков",    "base_price": 280.0, "unlock_level": 9,  "icon": "🍮" },
+    { "id": "broccoli_cream",   "name": "Крем-суп из брокколи", "base_price": 265.0, "unlock_level": 9,  "icon": "🥦" },
+    { "id": "artichoke_gratin", "name": "Артишок гратен",       "base_price": 390.0, "unlock_level": 10, "icon": "🧀" }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "_comment": "Garden ingredients. Fields: id, name (ru), gather_time_sec, base_yield, base_sell_price, unlock_level, icon. Mirrors economy_manager.gd _create_default_definitions().",
+  "resources": [
+    { "id": "carrot",    "name": "Морковь",   "gather_time_sec": 8.0,  "base_yield": 2, "base_sell_price": 5.0,  "unlock_level": 1,  "icon": "🥕" },
+    { "id": "onion",     "name": "Лук",       "gather_time_sec": 10.0, "base_yield": 2, "base_sell_price": 6.0,  "unlock_level": 1,  "icon": "🧅" },
+    { "id": "tomato",    "name": "Помидор",   "gather_time_sec": 12.0, "base_yield": 2, "base_sell_price": 8.0,  "unlock_level": 2,  "icon": "🍅" },
+    { "id": "cucumber",  "name": "Огурец",    "gather_time_sec": 11.0, "base_yield": 2, "base_sell_price": 7.0,  "unlock_level": 2,  "icon": "🥒" },
+    { "id": "potato",    "name": "Картофель", "gather_time_sec": 15.0, "base_yield": 3, "base_sell_price": 7.0,  "unlock_level": 3,  "icon": "🥔" },
+    { "id": "cabbage",   "name": "Капуста",   "gather_time_sec": 18.0, "base_yield": 3, "base_sell_price": 8.0,  "unlock_level": 3,  "icon": "🥬" },
+    { "id": "pepper",    "name": "Перец",     "gather_time_sec": 18.0, "base_yield": 1, "base_sell_price": 14.0, "unlock_level": 4,  "icon": "🫑" },
+    { "id": "corn",      "name": "Кукуруза",  "gather_time_sec": 20.0, "base_yield": 2, "base_sell_price": 11.0, "unlock_level": 4,  "icon": "🌽" },
+    { "id": "mushroom",  "name": "Грибы",     "gather_time_sec": 22.0, "base_yield": 2, "base_sell_price": 15.0, "unlock_level": 5,  "icon": "🍄" },
+    { "id": "garlic",    "name": "Чеснок",    "gather_time_sec": 16.0, "base_yield": 3, "base_sell_price": 10.0, "unlock_level": 5,  "icon": "🧄" },
+    { "id": "beet",      "name": "Свёкла",    "gather_time_sec": 25.0, "base_yield": 2, "base_sell_price": 18.0, "unlock_level": 6,  "icon": "🔴" },
+    { "id": "eggplant",  "name": "Баклажан",  "gather_time_sec": 28.0, "base_yield": 2, "base_sell_price": 16.0, "unlock_level": 6,  "icon": "🍆" },
+    { "id": "pumpkin",   "name": "Тыква",     "gather_time_sec": 32.0, "base_yield": 3, "base_sell_price": 20.0, "unlock_level": 7,  "icon": "🎃" },
+    { "id": "spinach",   "name": "Шпинат",    "gather_time_sec": 22.0, "base_yield": 3, "base_sell_price": 13.0, "unlock_level": 7,  "icon": "🌿" },
+    { "id": "apple",     "name": "Яблоко",    "gather_time_sec": 35.0, "base_yield": 2, "base_sell_price": 22.0, "unlock_level": 8,  "icon": "🍎" },
+    { "id": "wheat",     "name": "Пшеница",   "gather_time_sec": 40.0, "base_yield": 4, "base_sell_price": 10.0, "unlock_level": 8,  "icon": "🌾" },
+    { "id": "zucchini",  "name": "Кабачок",   "gather_time_sec": 42.0, "base_yield": 2, "base_sell_price": 25.0, "unlock_level": 9,  "icon": "🥬" },
+    { "id": "broccoli",  "name": "Брокколи",  "gather_time_sec": 38.0, "base_yield": 2, "base_sell_price": 23.0, "unlock_level": 9,  "icon": "🥦" },
+    { "id": "artichoke", "name": "Артишок",   "gather_time_sec": 50.0, "base_yield": 1, "base_sell_price": 40.0, "unlock_level": 10, "icon": "🌵" }
+  ]
+}

@@ -1,0 +1,399 @@
+/* Idle Tycoon — Telegram Mini App. Theme-aware via --tg-* vars set from
+   Telegram themeParams (telegram.js); defaults below drive a garden look and
+   also apply outside Telegram. */
+
+:root {
+  --tg-bg: #12160f;
+  --tg-secondary-bg: #1b2016;
+  --tg-text: #eef3e6;
+  --tg-hint: #9aa78c;
+  --tg-link: #7ac36a;
+  --tg-button: #4ab042;
+  --tg-button-text: #ffffff;
+
+  --gold: #f5b92a;
+  --card: color-mix(in srgb, var(--tg-secondary-bg) 88%, #ffffff 4%);
+  --card-2: color-mix(in srgb, var(--tg-secondary-bg) 70%, #ffffff 8%);
+  --line: color-mix(in srgb, var(--tg-text) 12%, transparent);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--tg-bg);
+  color: var(--tg-text);
+  font: 15px/1.4 -apple-system, "Segoe UI", Roboto, system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+
+#app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; max-width: 560px; margin: 0 auto; }
+
+/* ── HUD ─────────────────────────────────────────────────────────────────── */
+.hud {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: max(12px, env(safe-area-inset-top)) 14px 10px;
+  background: var(--tg-secondary-bg); border-bottom: 1px solid var(--line);
+}
+.hud-row { display: flex; align-items: center; gap: 10px; }
+.hud-grow { flex: 1; }
+.hud-stat { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 17px;
+  background: var(--card-2); padding: 6px 12px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.hud-icon { font-size: 16px; }
+.hud-badge { display: inline-flex; align-items: center; justify-content: center; gap: 3px;
+  background: var(--tg-button); color: var(--tg-button-text); font-weight: 700; font-size: 14px;
+  min-width: 32px; height: 32px; padding: 0 9px; border-radius: 999px; }
+.hud-badge::before { content: "Ур."; font-size: 10px; font-weight: 600; opacity: .8; }
+.hud-xp { display: flex; align-items: center; gap: 8px; }
+.hud-xp-text { color: var(--tg-hint); font-size: 11.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.xp-bar { flex: 1; height: 6px; background: var(--card-2); border-radius: 999px; overflow: hidden; }
+.xp-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--tg-link), var(--gold)); transition: width .3s ease; }
+.hud-bag { border: none; background: var(--card-2); font-size: 20px; width: 42px; height: 42px;
+  border-radius: 12px; cursor: pointer; }
+.hud-bag:active { transform: scale(.93); }
+.hud-gems { border: none; cursor: pointer; font: inherit; color: var(--tg-text); }
+.hud-gems:active { transform: scale(.95); }
+
+/* ── Screen + grid ───────────────────────────────────────────────────────── */
+#screen { flex: 1; overflow-y: auto; padding: 12px 12px 20px; }
+.screen-head { display: flex; align-items: center; gap: 10px; margin: 2px 2px 12px; }
+.screen-note { flex: 1; color: var(--tg-hint); font-size: 12.5px; margin: 0; }
+.doall-btn { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; border: none;
+  border-radius: 999px; background: var(--card-2); color: var(--tg-text); font-size: 12px; font-weight: 600;
+  padding: 8px 11px; cursor: pointer; transition: transform .08s; }
+.doall-btn:active { transform: scale(.95); }
+.da-star { background: var(--gold); color: #241a00; font-weight: 800; border-radius: 999px; padding: 1px 7px; font-size: 11px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+.cell {
+  position: relative; height: 80px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--card); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 4px; text-align: center; overflow: hidden; transition: transform .08s;
+}
+.cell:active { transform: scale(.96); }
+.cell-body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; width: 100%; }
+
+/* themed backdrops for built cells: garden bed / stove / shop shelf */
+.grid-garden .cell:not(.cell-locked) {
+  border-color: #6b4f2e;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 11px, rgba(0,0,0,.16) 11px 13px),
+    linear-gradient(180deg, #5d4227, #47301a);
+}
+.grid-kitchen .cell:not(.cell-locked) {
+  border-color: #4a4f57;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(255,255,255,.09) 0 5px, transparent 6px),
+    radial-gradient(circle at 50% 58%, rgba(0,0,0,.55) 0 15px, rgba(0,0,0,.22) 16px 19px, transparent 20px),
+    linear-gradient(180deg, #363a41, #24272c);
+}
+.grid-shop .cell:not(.cell-locked) {
+  border-color: #7a5a35;
+  background:
+    linear-gradient(0deg, rgba(0,0,0,.28) 0 6px, transparent 6px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.10) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, #74502c, #593b1d);
+}
+/* readable labels on the darker themed backdrops */
+.grid-garden .cell:not(.cell-locked) .cell-name, .grid-kitchen .cell:not(.cell-locked) .cell-name,
+.grid-shop .cell:not(.cell-locked) .cell-name,
+.grid-garden .cell:not(.cell-locked) .cell-action, .grid-kitchen .cell:not(.cell-locked) .cell-action,
+.grid-shop .cell:not(.cell-locked) .cell-action,
+.grid-garden .cell:not(.cell-locked) .cell-plus, .grid-kitchen .cell:not(.cell-locked) .cell-plus,
+.grid-shop .cell:not(.cell-locked) .cell-plus { color: #efe6d2; }
+.grid-shop .cell:not(.cell-locked) .shelf-qty { color: #b7e3a8; }
+
+/* locked / build */
+.cell-locked { border-style: dashed; color: var(--tg-hint); gap: 2px; }
+.cell-locked .lock-ic { font-size: 17px; opacity: .8; }
+.lock-build { font-size: 10px; }
+.lock-cost { font-size: 10px; font-weight: 700; color: var(--gold); }
+.cell-locked.cant .lock-cost { color: var(--tg-hint); }
+
+/* level chip */
+.lvl-chip { position: absolute; top: 4px; left: 4px; z-index: 2; font-size: 9px; font-weight: 700;
+  padding: 1px 5px; border-radius: 999px; background: var(--card-2); color: var(--tg-hint); cursor: pointer; }
+.lvl-chip.upgradable { background: var(--tg-button); color: var(--tg-button-text); box-shadow: 0 0 0 2px color-mix(in srgb, var(--tg-button) 35%, transparent); }
+
+.cell-plus { font-size: 19px; line-height: 1; color: var(--tg-hint); }
+.cell-action { font-size: 10px; color: var(--tg-hint); }
+.cell-ic { font-size: 25px; line-height: 1; }
+.cell-name { font-size: 10px; color: var(--tg-hint); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cell-bar { width: 80%; height: 6px; background: var(--card-2); border-radius: 999px; overflow: hidden; margin-top: 2px; }
+.cell-fill { height: 100%; background: var(--tg-link); border-radius: 999px; }
+
+.skip-btn { position: absolute; top: 4px; right: 4px; z-index: 3; border: none; border-radius: 999px;
+  background: color-mix(in srgb, var(--gold) 88%, #000 12%); color: #241a00; font-size: 11px; font-weight: 800;
+  padding: 2px 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 1px; }
+.skip-btn:active { transform: scale(.92); }
+
+.cell-ready { border-color: var(--gold); box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent); animation: pulse 1.5s infinite; }
+.cell-collect { font-size: 11px; font-weight: 700; color: var(--gold); }
+
+.cell-stocked { border-color: color-mix(in srgb, var(--tg-link) 55%, transparent); }
+.shelf-qty { font-size: 11px; letter-spacing: 1px; color: var(--tg-link); }
+
+@keyframes pulse { 50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 12%, transparent); } }
+.shake { animation: shake .3s; }
+@keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* ── Shop floor: shelves + counter + animated customers ──────────────────── */
+#screen.shop-mode { overflow: hidden; display: flex; flex-direction: column; }
+.shop-screen { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+/* Shelves flex to fill the space between the ad bar and the (pinned) counter so
+   the register is always on screen. Rows share the height (min 56px); a scroll
+   only kicks in on very short devices. Cell height comes from the grid rows. */
+.shop-screen .grid { flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  gap: 7px; grid-auto-rows: minmax(56px, 1fr); }
+.shop-screen .cell { height: auto; }
+.shelf-qty { letter-spacing: 0; font-size: 10px; }
+
+/* Fixed height so the block never shifts when the register flips between its
+   "Касса" (2 lines) and "+N 🪙 · N/5" (3 lines) states as customers are served. */
+.counter { flex: 0 0 auto; box-sizing: border-box; height: 82px;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-top: 10px; padding: 8px 14px;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.door { display: flex; flex-direction: column; align-items: center; color: var(--tg-hint); font-size: 11px; }
+.door-ic { font-size: 28px; line-height: 1; }
+.door-lbl { margin-top: 2px; }
+.register { flex: 0 0 auto; box-sizing: border-box; height: 100%; min-width: 108px;
+  border: none; border-radius: 12px; background: var(--card-2);
+  color: var(--tg-hint); display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px; padding: 6px 14px; cursor: pointer; transition: transform .08s; }
+.register:active { transform: scale(.95); }
+.register .reg-ic { font-size: 22px; }
+.register .reg-lbl { font-size: 11px; }
+.register.has-queue { background: var(--tg-button); color: var(--tg-button-text); animation: regpulse 1.2s infinite; }
+.register.has-queue .reg-amt { font-weight: 800; font-size: 14px; }
+.register.has-queue .reg-cnt { font-size: 10px; opacity: .85; }
+@keyframes regpulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--tg-button) 20%, transparent); } }
+
+/* customer overlay (positions in viewport px, set from JS) */
+#floor { position: fixed; inset: 0; z-index: 30; pointer-events: none; overflow: hidden; display: none; }
+#floor.active { display: block; }
+.cs { position: absolute; top: 0; left: 0; width: 40px; height: 40px; text-align: center; will-change: transform; }
+.cs-face { display: inline-block; font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 2px rgba(0,0,0,.45)); }
+.cs-item { position: absolute; top: -4px; right: 2px; font-size: 15px;
+  background: var(--tg-bg); border-radius: 999px; padding: 0 1px; }
+.cs.browsing::after { content: "❓"; position: absolute; top: -12px; left: 13px; font-size: 14px; }
+.cs.paid .cs-face { animation: hop .3s ease; }
+@keyframes hop { 50% { transform: translateY(-7px); } }
+
+/* ── Tab bar ─────────────────────────────────────────────────────────────── */
+.tabbar { display: flex; background: var(--tg-secondary-bg); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 9px 0 10px;
+  border: none; background: none; cursor: pointer; font-size: 22px; color: var(--tg-hint); transition: color .15s; }
+.tab span { font-size: 11px; }
+.tab.is-active { color: var(--tg-text); }
+.tab.is-active span { color: var(--tg-link); font-weight: 600; }
+
+/* ── Modals ──────────────────────────────────────────────────────────────── */
+#modal-root:empty { display: none; }
+.modal-back { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: flex-end;
+  justify-content: center; z-index: 50; animation: fade .15s; }
+@keyframes fade { from { opacity: 0; } }
+.modal-sheet { width: 100%; max-width: 560px; max-height: 80vh; display: flex; flex-direction: column;
+  background: var(--tg-bg); border-radius: 18px 18px 0 0; border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom); animation: slideup .2s ease; }
+@keyframes slideup { from { transform: translateY(30px); } }
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px;
+  font-weight: 700; font-size: 16px; border-bottom: 1px solid var(--line); }
+.modal-x { border: none; background: var(--card-2); color: var(--tg-text); width: 32px; height: 32px;
+  border-radius: 999px; font-size: 15px; cursor: pointer; }
+.modal-list { overflow-y: auto; padding: 10px 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+.opt { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; }
+.opt-off { opacity: .55; }
+.opt-empty { justify-content: center; color: var(--tg-hint); font-size: 13px; padding: 24px 12px; }
+.opt-ic { font-size: 26px; }
+.opt-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.opt-name { font-weight: 600; }
+.opt-lvl { display: inline-block; margin-left: 6px; font-size: 10px; font-weight: 700; color: var(--tg-hint);
+  background: var(--card-2); border-radius: 999px; padding: 1px 6px; vertical-align: middle; }
+.opt-sub { font-size: 12px; color: var(--tg-hint); }
+.opt-btn { border: none; background: var(--tg-button); color: var(--tg-button-text); font-weight: 700;
+  font-size: 13px; padding: 9px 14px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+.opt-btn:active { transform: scale(.95); }
+.opt-lock { font-size: 11px; color: var(--tg-hint); text-align: center; white-space: pre-line; }
+
+.danger-btn { width: 100%; border: 1px solid color-mix(in srgb, #d33 45%, transparent); border-radius: 12px;
+  padding: 11px; font-weight: 600; font-size: 13px; background: none; color: #e66; cursor: pointer; margin-top: 4px; }
+.danger-btn:active { transform: scale(.98); }
+
+.gem-balance { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0 8px; }
+.gem-big { font-size: 26px; font-weight: 800; }
+.gem-balance .hint { color: var(--tg-hint); font-size: 12px; text-align: center; }
+
+.upgrade-info { padding: 6px 4px; }
+.upgrade-info p { margin: 6px 0; }
+.upgrade-info .hint { color: var(--tg-hint); font-size: 12.5px; }
+
+/* Upgrade modal: what the next level unlocks */
+.unlock-box { padding: 2px 4px 4px; }
+.unlock-label { margin: 4px 0 8px; font-size: 13px; font-weight: 600; }
+.unlock-label.hint { color: var(--tg-hint); font-weight: 500; }
+.unlock-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.unlock-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px;
+  padding: 5px 9px; border-radius: 999px; background: var(--card-2);
+  border: 1px solid var(--line); }
+
+/* Recipe modal: per-ingredient availability chips */
+.ing-list { display: inline-flex; flex-wrap: wrap; gap: 5px; margin-bottom: 3px; }
+.ing { display: inline-flex; align-items: center; gap: 3px; font-size: 11.5px; font-weight: 600;
+  padding: 2px 7px; border-radius: 999px; border: 1px solid transparent; }
+.ing-ok { color: #3fb950; background: color-mix(in srgb, #3fb950 15%, transparent);
+  border-color: color-mix(in srgb, #3fb950 40%, transparent); }
+.ing-miss { color: #f0645a; background: color-mix(in srgb, #f0645a 14%, transparent);
+  border-color: color-mix(in srgb, #f0645a 38%, transparent); }
+.ing-time { display: block; color: var(--tg-hint); font-size: 12px; }
+.big-btn { width: 100%; border: none; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px;
+  background: var(--tg-button); color: var(--tg-button-text); cursor: pointer; margin-top: 6px; }
+.big-btn:disabled { background: var(--card-2); color: var(--tg-hint); cursor: default; }
+
+/* ── Rewarded ads (Phase B) ─────────────────────────────────────────────────── */
+/* Shop free-coins button */
+.ad-bonus { display: flex; align-items: center; gap: 8px; width: 100%; margin: 0 0 8px; padding: 9px 12px;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); border-radius: 12px; cursor: pointer;
+  background: color-mix(in srgb, var(--gold) 12%, var(--card)); color: var(--tg-text);
+  font-weight: 700; font-size: 13.5px; }
+.ad-bonus:active { transform: scale(.98); }
+.ad-bonus-off { opacity: .6; cursor: default; border-color: var(--line);
+  background: var(--card-2); font-weight: 600; }
+.ad-bonus .ad-ic { font-size: 18px; }
+.ad-bonus .ad-txt { flex: 1; text-align: left; }
+.ad-bonus .ad-reward { color: var(--gold); font-weight: 800; white-space: nowrap; }
+.ad-bonus-off .ad-reward { color: var(--tg-hint); font-weight: 600; }
+
+/* Double-offline-reward button in the "welcome back" modal */
+.ad-double-btn { width: 100%; border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent);
+  border-radius: 12px; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer;
+  background: color-mix(in srgb, var(--gold) 14%, transparent); color: var(--tg-text); margin-top: 6px; }
+.ad-double-btn:active { transform: scale(.98); }
+.ad-double-btn:disabled { opacity: .55; cursor: default; }
+
+/* Demo-ad overlay (no ad network configured) */
+.ad-back { position: fixed; inset: 0; z-index: 80; background: rgba(0,0,0,.82);
+  display: flex; align-items: center; justify-content: center; padding: 24px; animation: fade .2s; }
+.ad-card { position: relative; width: 100%; max-width: 320px; aspect-ratio: 4 / 3;
+  background: linear-gradient(150deg, #2a2140, #1a1730); border-radius: 18px;
+  display: flex; align-items: center; justify-content: center; }
+.ad-skip { position: absolute; top: 8px; right: 10px; z-index: 1; border: none; background: rgba(255,255,255,.14);
+  color: #fff; width: 30px; height: 30px; border-radius: 50%; font-size: 15px; cursor: pointer; }
+.ad-body { text-align: center; color: #fff; }
+.ad-badge { display: inline-block; font-size: 11px; letter-spacing: 1.5px; font-weight: 800;
+  color: #cbb7ff; border: 1px solid #cbb7ff66; border-radius: 999px; padding: 2px 10px; margin-bottom: 14px; }
+.ad-count { font-size: 52px; font-weight: 800; line-height: 1; }
+.ad-hint { margin-top: 12px; font-size: 12.5px; color: #ffffffb0; max-width: 220px; }
+
+/* ── Onboarding coach-marks ──────────────────────────────────────────────── */
+/* Overlay is click-through (pointer-events:none) so the highlighted control stays
+   tappable; only the coach button re-enables pointer events. Sits above content
+   (incl. the customer floor) but below modals (z 50) so a modal can cover it. */
+#coach-root { position: fixed; inset: 0; z-index: 45; pointer-events: none; }
+#coach-root:not(.active) { display: none; }
+.coach-ring { position: fixed; border-radius: 14px; border: 2px solid var(--tg-link);
+  box-shadow: 0 0 0 4px rgba(80,160,255,.25), 0 0 0 9999px rgba(0,0,0,.55);
+  animation: coachpulse 1.4s ease-in-out infinite; }
+@keyframes coachpulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(80,160,255,.28), 0 0 0 9999px rgba(0,0,0,.55); }
+  50%      { box-shadow: 0 0 0 8px rgba(80,160,255,.12), 0 0 0 9999px rgba(0,0,0,.55); }
+}
+.coach-bubble { position: fixed; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 40px); max-width: 340px; background: var(--tg-secondary-bg);
+  border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.4); animation: fade .2s; }
+.coach-text { margin: 0; font-size: 14.5px; line-height: 1.45; }
+.coach-progress { display: block; margin-top: 8px; font-size: 11.5px; color: var(--tg-hint);
+  text-align: right; font-variant-numeric: tabular-nums; }
+.coach-btn { pointer-events: auto; margin-top: 12px; width: 100%; border: none; border-radius: 12px;
+  padding: 12px; font-weight: 700; font-size: 15px; background: var(--tg-button);
+  color: var(--tg-button-text); cursor: pointer; }
+.coach-btn:active { transform: scale(.98); }
+
+/* ── Toasts ──────────────────────────────────────────────────────────────── */
+#toasts { position: fixed; top: 84px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; z-index: 60; pointer-events: none; }
+.toast { background: color-mix(in srgb, var(--gold) 92%, #000 8%); color: #241a00; font-weight: 800;
+  font-size: 14px; padding: 6px 14px; border-radius: 999px; animation: toastup 1.5s ease forwards; }
+@keyframes toastup { 0% { opacity: 0; transform: translateY(8px); } 15% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+
+/* ── Phase 4: leaderboard + name ─────────────────────────────────────────── */
+.board-me { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px;
+  background: color-mix(in srgb, var(--gold) 14%, var(--card)); border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  border-radius: 14px; }
+.board-me-rank { font-weight: 800; font-size: 18px; color: var(--gold); }
+.board-me-name { font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board-me-stat { font-size: 12px; color: var(--tg-hint); width: 100%; }
+.board-rename { border: none; background: var(--card-2); color: var(--tg-text); font-size: 12px; font-weight: 600;
+  border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.board-rename:active { transform: scale(.96); }
+.board-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; }
+.board-row-me { border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  background: color-mix(in srgb, var(--gold) 8%, var(--card)); }
+.board-rank { min-width: 26px; text-align: center; font-weight: 800; font-size: 15px; color: var(--tg-hint); }
+.board-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.board-lvl { font-size: 12px; color: var(--tg-hint); white-space: nowrap; }
+.board-coins { font-size: 12.5px; font-weight: 700; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.name-input { width: 100%; box-sizing: border-box; border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 14px; font-size: 16px; background: var(--card-2); color: var(--tg-text); margin-top: 4px; }
+.name-input:focus { outline: none; border-color: var(--tg-link); }
+
+/* ── Phase D: daily tasks + weekly streak ─────────────────────────────────── */
+/* HUD button carries a small "you have something to claim" dot. */
+#daily-btn { position: relative; }
+.hud-dot { position: absolute; top: 4px; right: 4px; width: 10px; height: 10px; border-radius: 50%;
+  background: #ff4d4d; border: 2px solid var(--tg-secondary-bg); }
+
+/* Keep three HUD buttons comfortable on narrow (≤375px) screens. */
+@media (max-width: 380px) {
+  .hud-row { gap: 7px; }
+  .hud-bag { width: 38px; height: 38px; font-size: 18px; }
+  .hud-stat { font-size: 15px; }
+}
+
+.daily-streak-wrap { display: flex; flex-direction: column; gap: 8px; }
+.daily-streak-label { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.daily-fire { font-size: 14px; font-weight: 700; }
+.daily-quality { font-size: 11px; color: var(--tg-hint); letter-spacing: 1px; }
+.daily-streak { display: flex; gap: 6px; }
+.daily-day { flex: 1; aspect-ratio: 1; min-width: 0; display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; background: var(--card-2); border: 1px solid var(--line);
+  font-size: 13px; font-weight: 700; color: var(--tg-hint); }
+.daily-day-done { background: var(--tg-button); color: var(--tg-button-text); border-color: transparent; }
+.daily-day-current { border-color: var(--gold); color: var(--gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent); animation: pulse 1.5s infinite; }
+.daily-day-super { background: color-mix(in srgb, var(--gold) 16%, var(--card-2)); color: var(--gold); }
+.daily-day-super.daily-day-done { background: var(--gold); color: #241a00; }
+
+.daily-task { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--card);
+  border: 1px solid var(--line); border-radius: 12px; }
+.daily-task-done { border-color: color-mix(in srgb, var(--tg-button) 45%, transparent); }
+.daily-task-claimed { border-color: color-mix(in srgb, var(--tg-button) 35%, transparent);
+  background: color-mix(in srgb, var(--tg-button) 8%, var(--card)); }
+/* Received-reward line, shown on claimed task rows and under a claimed chest. */
+.daily-got { font-size: 12.5px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+.daily-chest-got { padding: 6px 2px; text-align: center; }
+.daily-chest-status { text-align: center; font-size: 13px; font-weight: 700; color: var(--tg-hint); padding: 2px; }
+.daily-task-locked { opacity: .6; }
+.daily-task-locked .daily-task-lbl { color: var(--tg-hint); }
+.daily-task-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.daily-task-lbl { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.daily-bar { height: 6px; background: var(--card-2); border-radius: 999px; overflow: hidden; }
+.daily-fill { height: 100%; background: linear-gradient(90deg, var(--tg-link), var(--gold)); border-radius: 999px; transition: width .3s ease; }
+.daily-task-prog { font-size: 11px; color: var(--tg-hint); font-variant-numeric: tabular-nums; }
+.daily-claim { border: none; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 12.5px;
+  background: var(--card-2); color: var(--tg-hint); white-space: nowrap; min-width: 56px; cursor: default; }
+.daily-claim.ready { background: var(--tg-button); color: var(--tg-button-text); cursor: pointer; }
+.daily-claim.ready:active { transform: scale(.95); }
+.daily-claim.claimed { background: transparent; color: var(--tg-button); font-size: 16px; }
+
+.daily-chest.daily-chest-super:not(:disabled) {
+  background: linear-gradient(90deg, var(--gold), color-mix(in srgb, var(--gold) 70%, #ff8a3d));
+  color: #241a00; }

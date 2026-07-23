@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>Idle Tycoon</title>
+  <!-- Telegram Web App SDK (safe to load outside Telegram — main.js handles absence) -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top HUD -->
+    <header class="hud">
+      <div class="hud-row">
+        <div class="hud-stat" title="Монеты">
+          <span class="hud-icon">🪙</span>
+          <span id="coins">0</span>
+        </div>
+        <button class="hud-stat hud-gems" id="gems-btn" title="Гемы — магазин">
+          <span class="hud-icon">💎</span>
+          <span id="gems">0</span>
+        </button>
+        <span class="hud-badge" id="level" title="Уровень">1</span>
+        <span class="hud-grow"></span>
+        <button class="hud-bag" id="daily-btn" title="Задания дня">📅<span class="hud-dot" id="daily-dot" hidden></span></button>
+        <button class="hud-bag" id="board-btn" title="Рейтинг">🏆</button>
+        <button class="hud-bag" id="bag-btn" title="Склад">🎒</button>
+      </div>
+      <div class="hud-xp">
+        <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+        <span class="hud-xp-text" id="xp-text">0 / 200 XP</span>
+      </div>
+    </header>
+
+    <!-- Screen content -->
+    <main id="screen"></main>
+
+    <!-- overlays -->
+    <div id="floor"></div>
+    <div id="toasts"></div>
+    <div id="modal-root"></div>
+
+    <!-- Bottom navigation -->
+    <nav class="tabbar">
+      <button class="tab is-active" data-screen="garden">🌱<span>Сад</span></button>
+      <button class="tab" data-screen="kitchen">🍳<span>Кухня</span></button>
+      <button class="tab" data-screen="shop">🏪<span>Лавка</span></button>
+    </nav>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
