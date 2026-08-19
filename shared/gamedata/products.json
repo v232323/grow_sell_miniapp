@@ -1,0 +1,24 @@
+{
+  "_comment": "Kitchen dishes. Fields: id, name (ru), name_en (en), base_price, unlock_level, icon. Mirrors economy_manager.gd _create_default_definitions().",
+  "products": [
+    { "id": "salad",            "name": "Салат",                "name_en": "Salad",           "base_price": 28.0,  "unlock_level": 1,  "icon": "🥗" },
+    { "id": "onion_soup",       "name": "Луковый суп",          "name_en": "Onion Soup",      "base_price": 35.0,  "unlock_level": 1,  "icon": "🍲" },
+    { "id": "soup",             "name": "Суп",                  "name_en": "Soup",            "base_price": 48.0,  "unlock_level": 2,  "icon": "🥣" },
+    { "id": "stew",             "name": "Рагу",                 "name_en": "Stew",            "base_price": 65.0,  "unlock_level": 2,  "icon": "🍲" },
+    { "id": "pie",              "name": "Пирог",                "name_en": "Pie",             "base_price": 100.0, "unlock_level": 3,  "icon": "🥧" },
+    { "id": "gazpacho",         "name": "Гаспачо",              "name_en": "Gazpacho",        "base_price": 85.0,  "unlock_level": 3,  "icon": "🍅" },
+    { "id": "corn_soup",        "name": "Кукурузный суп",       "name_en": "Corn Soup",       "base_price": 80.0,  "unlock_level": 4,  "icon": "🌽" },
+    { "id": "stuffed_pepper",   "name": "Фаршированный перец",  "name_en": "Stuffed Pepper",  "base_price": 115.0, "unlock_level": 4,  "icon": "🫑" },
+    { "id": "mushroom_soup",    "name": "Грибной крем-суп",     "name_en": "Cream of Mushroom","base_price": 130.0, "unlock_level": 5,  "icon": "🍄" },
+    { "id": "paprikash",        "name": "Паприкаш",             "name_en": "Paprikash",       "base_price": 140.0, "unlock_level": 5,  "icon": "🌶️" },
+    { "id": "borscht",          "name": "Борщ",                 "name_en": "Borscht",         "base_price": 160.0, "unlock_level": 6,  "icon": "🥘" },
+    { "id": "ratatouille",      "name": "Рататуй",              "name_en": "Ratatouille",     "base_price": 170.0, "unlock_level": 6,  "icon": "🍆" },
+    { "id": "pumpkin_soup",     "name": "Тыквенный суп",        "name_en": "Pumpkin Soup",    "base_price": 195.0, "unlock_level": 7,  "icon": "🎃" },
+    { "id": "florentine",       "name": "Флорентийский шпинат", "name_en": "Spinach Florentine","base_price": 170.0, "unlock_level": 7,  "icon": "🌿" },
+    { "id": "apple_pie",        "name": "Яблочный пирог",       "name_en": "Apple Pie",       "base_price": 230.0, "unlock_level": 8,  "icon": "🥧" },
+    { "id": "bread",            "name": "Хлеб",                 "name_en": "Bread",           "base_price": 185.0, "unlock_level": 8,  "icon": "🍞" },
+    { "id": "zucchini_souffle", "name": "Суфле из кабачков",    "name_en": "Zucchini Souffle","base_price": 280.0, "unlock_level": 9,  "icon": "🍮" },
+    { "id": "broccoli_cream",   "name": "Крем-суп из брокколи", "name_en": "Cream of Broccoli","base_price": 265.0, "unlock_level": 9,  "icon": "🥦" },
+    { "id": "artichoke_gratin", "name": "Артишок гратен",       "name_en": "Artichoke Gratin","base_price": 390.0, "unlock_level": 10, "icon": "🧀" }
+  ]
+}

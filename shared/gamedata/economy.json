@@ -1,0 +1,84 @@
+{
+  "_comment": "Shared economy tuning — single source of truth for both the Godot game and the Telegram mini app. Mirrors scripts/autoload/economy_manager.gd. Change balance here.",
+  "build": {
+    "base_cost": 200.0,
+    "cost_multiplier": 1.8
+  },
+  "upgrade": {
+    "base_cost": 150.0,
+    "cost_multiplier": 2.2
+  },
+  "bonuses": {
+    "sell_price_per_level": 0.15,
+    "speed_per_level": 0.10
+  },
+  "npc": {
+    "base_spawn_interval": 8.0,
+    "spawn_level_reduction": 0.5,
+    "min_spawn_interval": 2.0
+  },
+  "gems": {
+    "per_level": 2,
+    "start": 5,
+    "skip_seconds_per_gem": 45
+  },
+  "premium": {
+    "offline_x2_cost": 40,
+    "auto_register_cost": 60
+  },
+  "referral": {
+    "_comment": "Server-credited gems (backend). Both inviter and invitee get bonus_gems, once, on the invitee's first authenticated sync. Kept here so the client can show the reward amount; the backend also reads REFERRAL_BONUS_GEMS.",
+    "bonus_gems": 25
+  },
+  "ads": {
+    "_comment": "Rewarded ads (Phase B). coin bonus = base + per_level*(level-1); cooldown between coin ads; hourly cap across all placements. Tuned so the coin ad stays meaningful late-game (~1000 at level 10).",
+    "coin_bonus_base": 100,
+    "coin_bonus_per_level": 100,
+    "cooldown_sec": 180,
+    "max_per_hour": 8
+  },
+  "xp": {
+    "_comment": "XP to advance level N->N+1 at thresholds[N-1]. Curve stretched so leveling slows down while coins/builds stay fast: levels 1-2 ~2x faster (quick onboarding), 3-4 unchanged, 5-6 ~2x, 7-8 ~3x, 9-10 ~4x, 11-20 ~5x, 21+ ~10x the original trend.",
+    "thresholds": [
+      100, 225, 800, 1250, 3600, 5000, 10200, 13500, 23200, 29200,
+      45000, 55000, 67500, 82500, 100000, 120000, 142500, 167500, 195000, 225000,
+      510000, 570000, 630000, 700000, 770000, 850000, 930000, 1020000, 1110000, 1200000
+    ],
+    "rewards": {
+      "collect_resource": 5,
+      "cook_product": 20,
+      "npc_sale": 10,
+      "build_cell": 0,
+      "upgrade_cell": 20
+    }
+  },
+  "daily": {
+    "_comment": "Ежедневные задания + недельный стрик (Phase D). Задания генерируются и замораживаются на сервере из разблокированного пула игрока (sim.js rolloverDaily), клиент их только рисует. Стрик растёт за >=streak_required_tasks выполненных заданий/день. Приз каждого 7-го дня масштабируется streakFloor (мин. выполнено заданий/день за стрик). Награды зависят от уровня: coins = coins_base + coins_per_level*(level-1); XP = xp_pct * (порог XP до след. уровня) — так награда остаётся пропорциональной на любом уровне, а не огромной на 1-м и мизерной на 20-м. gems/dishes фиксированные (премиум/предметы).",
+    "reset_hour_utc": 0,
+    "streak_required_tasks": 1,
+    "chest_cooldown_sec": 600,
+    "task_pool": [
+      { "id": "serve_any",    "tier": 1, "type": "serve",          "goal": 6,  "reward": { "coins_base": 40, "coins_per_level": 20, "xp_pct": 0.008 } },
+      { "id": "harvest_any",  "tier": 1, "type": "collectGarden",  "goal": 8,  "reward": { "coins_base": 40, "coins_per_level": 20, "xp_pct": 0.008 } },
+      { "id": "collect_crop", "tier": 2, "type": "collectGarden",  "pick": "crop",   "goal": 6, "reward": { "coins_base": 60, "coins_per_level": 25, "xp_pct": 0.010 } },
+      { "id": "plant_crop",   "tier": 2, "type": "plant",          "pick": "crop",   "goal": 8, "reward": { "coins_base": 50, "coins_per_level": 20, "xp_pct": 0.010 } },
+      { "id": "cook_any",     "tier": 2, "type": "collectKitchen", "goal": 4,  "reward": { "coins_base": 60, "coins_per_level": 25, "xp_pct": 0.010 } },
+      { "id": "cook_dish",    "tier": 3, "type": "collectKitchen", "pick": "dish",   "goal": 4, "reward": { "coins_base": 90, "coins_per_level": 35, "xp_pct": 0.012 } },
+      { "id": "sell_dish",    "tier": 3, "type": "serve",          "pick": "dish",   "goal": 5, "reward": { "coins_base": 90, "coins_per_level": 35, "xp_pct": 0.012 } },
+      { "id": "upgrade_cell", "tier": 3, "type": "upgrade",        "pick": "screen", "goal": 1, "reward": { "coins_base": 80, "coins_per_level": 30, "xp_pct": 0.012 } }
+    ],
+    "day_rewards": [
+      { "coins_base": 100, "coins_per_level": 40, "xp_pct": 0.005, "gems": 0 },
+      { "coins_base": 130, "coins_per_level": 45, "xp_pct": 0.005, "gems": 0 },
+      { "coins_base": 160, "coins_per_level": 50, "xp_pct": 0.007, "gems": 0 },
+      { "coins_base": 200, "coins_per_level": 55, "xp_pct": 0.007, "gems": 0 },
+      { "coins_base": 250, "coins_per_level": 60, "xp_pct": 0.010, "gems": 0 },
+      { "coins_base": 320, "coins_per_level": 70, "xp_pct": 0.010, "gems": 0 }
+    ],
+    "super_rewards": [
+      { "coins_base": 500,  "coins_per_level": 90,  "xp_pct": 0.03, "gems": 1, "dishes": 0 },
+      { "coins_base": 800,  "coins_per_level": 130, "xp_pct": 0.05, "gems": 3, "dishes": 2 },
+      { "coins_base": 1200, "coins_per_level": 180, "xp_pct": 0.07, "gems": 5, "dishes": 4 }
+    ]
+  }
+}
