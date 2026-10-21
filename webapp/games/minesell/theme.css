@@ -1,0 +1,48 @@
+/* MineSell theme, loaded by profile.js on top of styles.css. Pictures come from
+   art/ next to this file (generated, see .claude/skills/game-icons). A picture that is
+   not there yet just leaves the plain colour behind it — nothing breaks. */
+
+:root[data-game="minesell"] {
+  --gold: #f2b84b;
+}
+
+/* Screen backgrounds. The grid sits on top, so the art keeps a quiet middle;
+   the dark veil keeps cell labels readable on any part of the picture. */
+:root[data-game="minesell"] #screen { background-size: cover; background-position: center; }
+:root[data-game="minesell"] #screen[data-screen="garden"] {
+  background-image: linear-gradient(rgba(10, 8, 6, .55), rgba(10, 8, 6, .55)), url("art/bg_mine.jpg"); }
+:root[data-game="minesell"] #screen[data-screen="kitchen"] {
+  background-image: linear-gradient(rgba(10, 8, 6, .55), rgba(10, 8, 6, .55)), url("art/bg_forge.jpg"); }
+:root[data-game="minesell"] #screen[data-screen="shop"] {
+  background-image: linear-gradient(rgba(10, 8, 6, .45), rgba(10, 8, 6, .45)), url("art/bg_shop.jpg"); }
+
+/* Cells: MineSell's own look on every screen and in every state, so none of
+   Grow Sell's bed/stove/shelf drawings ever shows through. The picture of the
+   place at its stage (art.cellArt → --cell-art) sits on top when it exists;
+   without it (not generated yet, or failed to load) the cell is plain dark
+   stone. Darkened toward the bottom, where the name and progress bar sit. */
+:root[data-game="minesell"] .grid .cell {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .10) 0%, rgba(0, 0, 0, .25) 45%, rgba(0, 0, 0, .70) 100%),
+    var(--cell-art, linear-gradient(160deg, #3d322a 0%, #2b231d 55%, #1f1915 100%)) center / cover no-repeat,
+    #2a231d;
+  border-color: rgba(242, 184, 75, .30);
+}
+:root[data-game="minesell"] .grid .cell.cell-locked {
+  border-style: dashed;
+  border-color: rgba(242, 184, 75, .18);
+  /* darker instead of desaturated: a CSS filter would lift the locked cells
+     above the onboarding bubble that floats over the grid */
+  background:
+    linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .70)),
+    var(--cell-art, linear-gradient(160deg, #2e2620, #1b1612)) center / cover no-repeat,
+    #1b1612;
+}
+:root[data-game="minesell"] .grid .cell .cell-name,
+:root[data-game="minesell"] .grid .cell .cell-action,
+:root[data-game="minesell"] .grid .cell .lock-build,
+:root[data-game="minesell"] .grid .cell .cell-plus { color: #f4ead8; text-shadow: 0 1px 2px rgba(0, 0, 0, .9); }
+:root[data-game="minesell"] .grid .cell .cell-ic { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .7)); }
+
+/* Customers are pictures here: a touch bigger than the emoji faces were. */
+:root[data-game="minesell"] .cs-face { font-size: 34px; }

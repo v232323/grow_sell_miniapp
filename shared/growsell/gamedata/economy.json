@@ -1,0 +1,96 @@
+{
+  "_comment": "Shared economy tuning — single source of truth for both the Godot game and the Telegram mini app. Mirrors scripts/autoload/economy_manager.gd. Change balance here.",
+  "build": {
+    "base_cost": 200.0,
+    "cost_multiplier": 1.8
+  },
+  "upgrade": {
+    "_comment": "cost_multiplier НЕ должен превышать рост дохода за уровень, иначе монеты неизбежно отстают от опыта. Доход после насыщения лавки (1800 продаж в час) растёт только ценой блюда, то есть x1.9 за уровень. При x2.2 каждый следующий апгрейд стоил в 1.16 раза больше времени, за 20 уровней это накапливалось в 19 раз: игрок упирался в кап 31 уровня на 36-й день, а клетка доходила до 30 только к 128-му — три месяца без единого нового уровня. При x2.0 обе шкалы приходят вместе (клетка 30 на 23.6 сутки, игрок 30 на 23.0) и полный контент открывается за ~24 суток непрерывной игры.",
+    "base_cost": 150.0,
+    "cost_multiplier": 2.0
+  },
+  "bonuses": {
+    "_comment": "speed_per_level применяется МУЛЬТИПЛИКАТИВНО: время = base * (1-speed)^(level-1). Раньше формула была линейной и обнулялась на 11 уровне клетки, из-за чего всё выше производилось за секунду независимо от культуры. Коэффициент поднят с 0.10 до 0.12 вместе со сменой формулы: мультипликативное затухание медленнее линейного, и на 0.10 верхние уровни теряли слишком много пропускной способности (30 ур. уезжал с 17 до 42 суток непрерывной игры). На 0.12 профильная культура растёт 15.8 с на 10 ур. и 3.8 с на 30 ур. — быстро, но нигде не упирается в секундный пол. См. economy.js productionTime.",
+    "sell_price_per_level": 0.15,
+    "speed_per_level": 0.12
+  },
+  "npc": {
+    "base_spawn_interval": 8.0,
+    "spawn_level_reduction": 0.5,
+    "min_spawn_interval": 2.0
+  },
+  "gems": {
+    "per_level": 2,
+    "start": 5,
+    "skip_seconds_per_gem": 45
+  },
+  "premium": {
+    "offline_x2_cost": 40,
+    "auto_register_cost": 60
+  },
+  "referral": {
+    "_comment": "Server-credited gems (backend). Both inviter and invitee get bonus_gems, once, on the invitee's first authenticated sync. Kept here so the client can show the reward amount; the backend also reads REFERRAL_BONUS_GEMS.",
+    "bonus_gems": 25
+  },
+  "ads": {
+    "_comment": "Rewarded ads (Phase B). coin bonus = base + per_level*(level-1); cooldown between coin ads; hourly cap across all placements. Tuned so the coin ad stays meaningful late-game (~1000 at level 10).",
+    "coin_bonus_base": 100,
+    "coin_bonus_per_level": 100,
+    "cooldown_sec": 180,
+    "max_per_hour": 8
+  },
+  "xp": {
+    "_comment": "XP to advance level N->N+1 at thresholds[N-1]. Награда за действие умножается на тир предмета (scale_by_tier), поэтому морковь больше не качает так же, как золотой лотос: расти можно только продвигаясь по контенту, а не гриндя самую дешёвую культуру. Пороги 1-5 уровня оставлены как были — ранняя игра должна оставаться быстрой (5 ур. за ~12 минут). С 6-го уровня пороги x10, чтобы компенсировать умножение на тир. Замер симулятором: 10 ур. ~10.6 ч непрерывной игры (было 3.9 ч, то есть весь контент забирался за один вечер), 20 ур. ~4.3 суток, 30 ур. ~17 суток.",
+    "thresholds": [
+      100, 225, 800, 1250, 3600, 50000, 102000, 135000, 232000, 292000,
+      450000, 550000, 675000, 825000, 1000000, 1200000, 1425000, 1675000, 1950000, 2250000,
+      5100000, 5700000, 6300000, 7000000, 7700000, 8500000, 9300000, 10200000, 11100000, 12000000
+    ],
+    "scale_by_tier": true,
+    "rewards": {
+      "_comment_collect": "XP за СБОР, а не за единицу урожая. Умножение на base_yield давало инверсию: пшеница (тир 8, урожай 4) на прокачанной грядке приносила вчетверо больше опыта в секунду, чем золотой лотос, и обходила всю петлю с готовкой и продажей. На монеты урожай влияет как влиял.",
+      "collect_resource": 5,
+      "cook_product": 20,
+      "npc_sale": 10,
+      "build_cell": 0,
+      "upgrade_cell": 20
+    }
+  },
+  "offline": {
+    "_comment": "Самосев: пока игрока нет, случайно оброненные при посадке семена прорастают сами. Начисляется ТОЛЬКО сырьё и ТОЛЬКО с построенных грядок — кухня и лавка не копят, чтобы готовил и продавал игрок сам. Прямого XP нет вообще: уровни всегда стоят сессии, поэтому месяц отсутствия не даёт ни одного уровня. Каждая грядка считается отдельно и даёт культуру своего тира (unlock_level от cell.level-tier_spread до cell.level) — грядка 2 ур. приносит товары 2 ур., грядка 1 ур. — первого. Экономику это сломать не может: монеты входят в игру только через продажи в лавке, а те жёстко ограничены интервалом покупателей, и самосев этот потолок не двигает — он лишь избавляет от холодного старта. Замер: 0.2-0.5% часового активного дохода на всех уровнях.",
+    "min_player_level": 5,
+    "units_per_cell_per_hour": 4,
+    "window_hours": 8,
+    "tier_spread": 2,
+    "max_units": 600
+  },
+  "daily": {
+    "_comment": "Ежедневные задания + недельный стрик (Phase D). Задания генерируются и замораживаются на сервере из разблокированного пула игрока (sim.js rolloverDaily), клиент их только рисует. Стрик растёт за >=streak_required_tasks выполненных заданий/день. Приз каждого 7-го дня масштабируется streakFloor (мин. выполнено заданий/день за стрик). Награды зависят от уровня: coins = coins_base + coins_per_level*(level-1); XP = xp_pct * (порог XP до след. уровня) — так награда остаётся пропорциональной на любом уровне, а не огромной на 1-м и мизерной на 20-м. gems/dishes фиксированные (премиум/предметы).",
+    "reset_hour_utc": 0,
+    "streak_required_tasks": 1,
+    "chest_cooldown_sec": 600,
+    "task_pool": [
+      { "id": "serve_any",    "tier": 1, "type": "serve",          "goal": 6,  "reward": { "coins_base": 40, "coins_per_level": 20, "xp_pct": 0.008 } },
+      { "id": "harvest_any",  "tier": 1, "type": "collectGarden",  "goal": 8,  "reward": { "coins_base": 40, "coins_per_level": 20, "xp_pct": 0.008 } },
+      { "id": "collect_crop", "tier": 2, "type": "collectGarden",  "pick": "crop",   "goal": 6, "reward": { "coins_base": 60, "coins_per_level": 25, "xp_pct": 0.010 } },
+      { "id": "plant_crop",   "tier": 2, "type": "plant",          "pick": "crop",   "goal": 8, "reward": { "coins_base": 50, "coins_per_level": 20, "xp_pct": 0.010 } },
+      { "id": "cook_any",     "tier": 2, "type": "collectKitchen", "goal": 4,  "reward": { "coins_base": 60, "coins_per_level": 25, "xp_pct": 0.010 } },
+      { "id": "cook_dish",    "tier": 3, "type": "collectKitchen", "pick": "dish",   "goal": 4, "reward": { "coins_base": 90, "coins_per_level": 35, "xp_pct": 0.012 } },
+      { "id": "sell_dish",    "tier": 3, "type": "serve",          "pick": "dish",   "goal": 5, "reward": { "coins_base": 90, "coins_per_level": 35, "xp_pct": 0.012 } },
+      { "id": "upgrade_cell", "tier": 3, "type": "upgrade",        "pick": "screen", "goal": 1, "reward": { "coins_base": 80, "coins_per_level": 30, "xp_pct": 0.012 } }
+    ],
+    "day_rewards": [
+      { "coins_base": 100, "coins_per_level": 40, "xp_pct": 0.005, "gems": 0 },
+      { "coins_base": 130, "coins_per_level": 45, "xp_pct": 0.005, "gems": 0 },
+      { "coins_base": 160, "coins_per_level": 50, "xp_pct": 0.007, "gems": 0 },
+      { "coins_base": 200, "coins_per_level": 55, "xp_pct": 0.007, "gems": 0 },
+      { "coins_base": 250, "coins_per_level": 60, "xp_pct": 0.010, "gems": 0 },
+      { "coins_base": 320, "coins_per_level": 70, "xp_pct": 0.010, "gems": 0 }
+    ],
+    "super_rewards": [
+      { "coins_base": 500,  "coins_per_level": 90,  "xp_pct": 0.03, "gems": 1, "dishes": 0 },
+      { "coins_base": 800,  "coins_per_level": 130, "xp_pct": 0.05, "gems": 3, "dishes": 2 },
+      { "coins_base": 1200, "coins_per_level": 180, "xp_pct": 0.07, "gems": 5, "dishes": 4 }
+    ]
+  }
+}
